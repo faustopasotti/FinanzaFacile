@@ -228,7 +228,7 @@ jobs:
           from PIL import Image
           from pathlib import Path
 
-          img = Image.open("icona.png").convert("RGBA")
+          img = Image.open("icona1.png").convert("RGBA")
 
           dimensioni = {
               "mdpi": 48,
