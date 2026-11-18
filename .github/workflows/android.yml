@@ -143,7 +143,7 @@ jobs:
               <uses-permission android:name="android.permission.INTERNET"/>
               <application
                   android:label="Finanza Facile"
-                  android:icon="@drawable/app_icon"
+                  android:icon="@mipmap/ic_launcher"
                   android:theme="@android:style/Theme.Material.Light.NoActionBar"
                   android:usesCleartextTraffic="false">
                   <activity
@@ -213,6 +213,40 @@ jobs:
               }
           }
           EOF
+
+      - name: Inserisci icona originale
+        run: |
+          mkdir -p app/src/main/res/mipmap-mdpi
+          mkdir -p app/src/main/res/mipmap-hdpi
+          mkdir -p app/src/main/res/mipmap-xhdpi
+          mkdir -p app/src/main/res/mipmap-xxhdpi
+          mkdir -p app/src/main/res/mipmap-xxxhdpi
+
+          python3 -m pip install --quiet Pillow
+
+          python3 - <<'PY'
+          from PIL import Image
+          from pathlib import Path
+
+          img = Image.open("icona.png").convert("RGBA")
+
+          dimensioni = {
+              "mdpi": 48,
+              "hdpi": 72,
+              "xhdpi": 96,
+              "xxhdpi": 144,
+              "xxxhdpi": 192,
+          }
+
+          for densita, lato in dimensioni.items():
+              cartella = Path(f"app/src/main/res/mipmap-{densita}")
+              img.resize(
+                  (lato, lato),
+                  Image.Resampling.LANCZOS
+              ).save(cartella / "ic_launcher.png")
+
+          print("Icona originale inserita correttamente")
+          PY
 
       - name: Compila APK
         run: gradle :app:assembleDebug --no-daemon
