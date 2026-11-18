@@ -28,11 +28,12 @@ jobs:
           echo "y" | ${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager \
             "platforms;android-35" "build-tools;35.0.0"
 
-      - name: Crea il progetto Android
+      - name: Crea progetto Android e icona
         shell: bash
         run: |
           mkdir -p app/src/main/assets
           mkdir -p app/src/main/java/it/finanzafacile/app
+          mkdir -p app/src/main/res/drawable
 
           cp index.html app/src/main/assets/index.html
 
@@ -74,10 +75,66 @@ jobs:
                   applicationId 'it.finanzafacile.app'
                   minSdk 23
                   targetSdk 35
-                  versionCode 1
-                  versionName '2.1'
+                  versionCode 2
+                  versionName '2.1.1'
               }
           }
+          EOF
+
+          cat > app/src/main/res/drawable/app_icon.xml <<'EOF'
+          <?xml version="1.0" encoding="utf-8"?>
+          <vector xmlns:android="http://schemas.android.com/apk/res/android"
+              android:width="108dp"
+              android:height="108dp"
+              android:viewportWidth="108"
+              android:viewportHeight="108">
+
+              <path
+                  android:fillColor="#142B49"
+                  android:pathData="M0,0 H108 V108 H0 Z"/>
+
+              <!-- Toro: verde smeraldo -->
+              <path
+                  android:fillColor="#35B87A"
+                  android:pathData="M13,30 C9,23 9,16 13,11 C15,23 22,26 29,27 C35,20 47,20 52,30 C56,40 53,56 46,68 L42,84 L33,84 L29,69 C19,63 14,51 16,40 C10,38 7,33 6,27 C11,30 16,30 21,28 Z"/>
+
+              <path
+                  android:fillColor="#35B87A"
+                  android:pathData="M41,28 C46,21 49,16 48,10 C56,18 56,28 50,35 Z"/>
+
+              <!-- Muso del toro -->
+              <path
+                  android:fillColor="#A5E6C4"
+                  android:pathData="M26,53 C33,49 44,51 47,59 C48,66 43,73 36,73 C28,73 23,65 26,53 Z"/>
+
+              <!-- Orso: oro caldo -->
+              <path
+                  android:fillColor="#D5A64B"
+                  android:pathData="M58,35 C55,26 62,19 70,22 C76,16 87,20 87,28 C97,32 101,43 98,55 C96,64 91,68 88,74 L88,85 L79,85 L76,72 L70,85 L61,85 L65,67 C59,61 55,47 58,35 Z"/>
+
+              <!-- Orecchie e muso dell'orso -->
+              <path
+                  android:fillColor="#D5A64B"
+                  android:pathData="M61,26 C58,19 63,14 69,18 L74,26 Z"/>
+
+              <path
+                  android:fillColor="#F4D99A"
+                  android:pathData="M61,44 C66,40 76,41 80,47 C82,54 77,60 70,60 C63,60 59,53 61,44 Z"/>
+
+              <!-- Occhi -->
+              <path
+                  android:fillColor="#142B49"
+                  android:pathData="M39,42 a2,2 0,1 0,4 0 a2,2 0,1 0,-4 0 Z"/>
+
+              <path
+                  android:fillColor="#142B49"
+                  android:pathData="M67,37 a2,2 0,1 0,4 0 a2,2 0,1 0,-4 0 Z"/>
+
+              <!-- Linea dorata inferiore -->
+              <path
+                  android:fillColor="#C49A45"
+                  android:pathData="M19,93 H89 V96 H19 Z"/>
+          </vector>
           EOF
 
           cat > app/src/main/AndroidManifest.xml <<'EOF'
@@ -86,6 +143,7 @@ jobs:
               <uses-permission android:name="android.permission.INTERNET"/>
               <application
                   android:label="Finanza Facile"
+                  android:icon="@drawable/app_icon"
                   android:theme="@android:style/Theme.Material.Light.NoActionBar"
                   android:usesCleartextTraffic="false">
                   <activity
@@ -162,6 +220,6 @@ jobs:
       - name: Rendi disponibile APK
         uses: actions/upload-artifact@v4
         with:
-          name: FinanzaFacile-APK
+          name: FinanzaFacile-APK-Icona
           path: app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
