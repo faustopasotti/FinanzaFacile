@@ -1,0 +1,1318 @@
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#142B49">
+<meta name="description" content="Finanza Facile: 100 termini finanziari spiegati in modo semplice, esempi e simulatore.">
+<link rel="manifest" href="manifest.json">
+<title>Finanza Facile</title>
+<style>
+:root{
+  --navy:#142B49;
+  --green:#124F49;
+  --wine:#823D50;
+  --ochre:#C49A45;
+  --cream:#F8F7F4;
+  --ink:#243247;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--cream);
+  color:var(--ink);
+  font-family:system-ui,-apple-system,Arial,sans-serif;
+}
+header{
+  background:var(--navy);
+  color:white;
+  padding:22px 18px 20px;
+}
+header .inside{max-width:760px;margin:auto}
+header h1{margin:0;font-size:26px}
+header p{margin:5px 0 0;color:#D8DFE8}
+main{
+  max-width:760px;
+  margin:auto;
+  padding:20px 16px 115px;
+}
+h2,h3{color:var(--navy)}
+h2{font-size:22px}
+p{line-height:1.55}
+button,input{font:inherit}
+button{cursor:pointer}
+button:focus-visible,input:focus-visible{
+  outline:3px solid var(--ochre);
+  outline-offset:3px;
+}
+.card{
+  background:white;
+  border:1px solid #E2E4E1;
+  border-radius:16px;
+  padding:18px;
+  margin:12px 0;
+}
+.hero{
+  background:#E8EDF3;
+  border-radius:18px;
+  padding:21px;
+  margin-bottom:20px;
+}
+.hero h2{margin:0 0 9px}
+.hero p{margin:0}
+.hero-stat{
+  color:var(--green);
+  font-weight:750;
+  margin-top:15px;
+  font-size:14px;
+}
+.section-title{
+  margin:24px 0 12px;
+  font-size:20px;
+}
+.category-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+}
+.category-tile{
+  border:0;
+  border-radius:17px;
+  padding:20px 15px;
+  min-height:120px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  align-items:flex-start;
+  text-align:left;
+  transition:transform .15s;
+}
+.category-tile:active{transform:scale(.97)}
+.category-tile .emoji{font-size:27px}
+.category-tile .name{
+  font-size:15px;
+  font-weight:750;
+  line-height:1.3;
+}
+.category-tile .amount{
+  font-size:12px;
+  opacity:.8;
+  margin-top:5px;
+}
+.tile-blue{background:#E8EDF3;color:var(--navy)}
+.tile-green{background:#E6F0EC;color:var(--green)}
+.tile-gold{background:#F6EFD9;color:#79591B}
+.tile-wine{background:#F5E9ED;color:var(--wine)}
+.tile-wide{grid-column:span 2;min-height:100px}
+.home-shortcuts{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-top:14px;
+}
+.shortcut{
+  background:white;
+  border:1px solid #DFE5E2;
+  border-radius:14px;
+  padding:16px;
+  color:var(--navy);
+  text-align:left;
+  font-weight:700;
+}
+.shortcut span{
+  display:block;
+  font-size:25px;
+  margin-bottom:8px;
+}
+.search{
+  width:100%;
+  border:1px solid #BCC7CF;
+  border-radius:12px;
+  padding:14px;
+  background:white;
+  margin:9px 0 13px;
+}
+.chips{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  padding:3px 0 12px;
+  scrollbar-width:thin;
+}
+.chip{
+  border:1px solid #CBD9D3;
+  background:white;
+  color:var(--green);
+  border-radius:25px;
+  padding:9px 13px;
+  font-size:12px;
+  white-space:nowrap;
+}
+.chip.active{background:var(--green);color:white}
+.list-heading{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+.list-heading h3{margin-bottom:5px}
+.count{color:#697584;font-size:13px}
+.term-card{cursor:pointer}
+.term-card h3{margin:6px 0}
+.term-card p{margin:0;font-size:14px}
+.term-category{
+  color:var(--green);
+  font-size:12px;
+  font-weight:750;
+}
+.term-top{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+}
+.action{
+  border:0;
+  background:var(--green);
+  color:white;
+  padding:12px 17px;
+  border-radius:11px;
+  margin:8px 0;
+}
+.action-secondary{
+  background:#E8EDF3;
+  color:var(--navy);
+}
+.example{
+  background:#F6EFD9;
+  border-left:4px solid var(--ochre);
+}
+.warning{
+  background:#F5E9ED;
+  border-left:4px solid var(--wine);
+}
+.small{
+  font-size:13px;
+  color:#596573;
+  line-height:1.65;
+}
+a{color:var(--green)}
+nav{
+  position:fixed;
+  left:0;right:0;bottom:0;
+  z-index:20;
+  display:flex;
+  justify-content:space-around;
+  background:var(--navy);
+  padding:9px 3px max(10px,env(safe-area-inset-bottom));
+}
+nav button{
+  border:0;
+  background:transparent;
+  color:white;
+  font-size:11px;
+  padding:7px 2px;
+  min-width:0;
+}
+nav button.active{color:#E5BE70;font-weight:750}
+.nav-icon{display:block;font-size:20px;margin-bottom:3px}
+.field{margin-bottom:24px}
+.field-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:11px;
+}
+.field-top label{
+  flex:1;
+  font-size:14px;
+  font-weight:700;
+}
+.number-wrap{
+  display:flex;
+  align-items:center;
+  border:1px solid #BBC5CB;
+  border-radius:11px;
+  background:white;
+  max-width:175px;
+  overflow:hidden;
+}
+.number-wrap input{
+  width:100%;
+  min-width:0;
+  border:0;
+  padding:11px 5px;
+  text-align:right;
+  font-weight:750;
+  color:var(--navy);
+}
+.number-wrap span{
+  padding-right:9px;
+  color:#66717D;
+  font-size:12px;
+}
+input[type=range]{
+  display:block;
+  width:100%;
+  accent-color:var(--green);
+  cursor:pointer;
+}
+.range-labels{
+  display:flex;
+  justify-content:space-between;
+  font-size:11px;
+  color:#697584;
+  margin-top:5px;
+}
+.result{
+  background:#E6F0EC;
+  border-radius:15px;
+  padding:19px;
+  color:var(--green);
+}
+.result h2{
+  color:var(--green);
+  font-size:clamp(24px,6vw,35px);
+  margin:8px 0 16px;
+  overflow-wrap:anywhere;
+}
+.result-row{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  margin-top:10px;
+  font-size:14px;
+}
+.result-row strong{text-align:right}
+.error{color:var(--wine);font-size:13px}
+.legend{
+  display:flex;
+  gap:15px;
+  flex-wrap:wrap;
+  margin:12px 0;
+  font-size:12px;
+}
+.legend span{display:flex;align-items:center;gap:6px}
+.dot{
+  display:inline-block;
+  width:11px;height:11px;
+  border-radius:50%;
+}
+.chart-wrap{width:100%;overflow:hidden}
+.chart-wrap svg{display:block;width:100%;height:auto}
+.summary{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:14px;
+}
+.summary div{
+  background:#F2F5F4;
+  padding:12px;
+  border-radius:11px;
+  font-size:12px;
+}
+.summary strong{
+  display:block;
+  color:var(--green);
+  font-size:15px;
+  margin-top:5px;
+  overflow-wrap:anywhere;
+}
+@media(max-width:370px){
+  nav button{font-size:10px}
+  .field-top label{font-size:12px}
+  .number-wrap{max-width:135px}
+  .category-tile .name{font-size:13px}
+}
+</style>
+</head>
+
+<body>
+<header>
+  <div class="inside">
+    <h1>📖 Finanza Facile</h1>
+    <p>Capire prima di investire</p>
+  </div>
+</header>
+
+<main id="content"></main>
+<nav id="navigation" aria-label="Navigazione principale"></nav>
+
+<script>
+"use strict";
+
+/* CATEGORIE */
+const categories={
+  B:{name:"Le basi della finanza",short:"Le basi",icon:"📖",color:"tile-blue"},
+  A:{name:"Azioni e Borsa",short:"Azioni e Borsa",icon:"📈",color:"tile-green"},
+  O:{name:"Obbligazioni e tassi",short:"Obbligazioni",icon:"🏛️",color:"tile-gold"},
+  F:{name:"ETF e fondi",short:"ETF e fondi",icon:"◈",color:"tile-green"},
+  S:{name:"Strategie e pianificazione",short:"Strategie",icon:"🎯",color:"tile-blue"},
+  R:{name:"Rischi e protezione",short:"Rischi",icon:"⚠️",color:"tile-wine"},
+  C:{name:"Costi, fiscalità e regole",short:"Costi, fiscalità e regole",icon:"🧾",color:"tile-gold"}
+};
+
+/*
+  100 TERMINI.
+  Formato:
+  nome | categoria | definizione | esempio | avvertenza
+*/
+const rawTerms=[
+["Risparmio","B","Parte del reddito non utilizzata per le spese correnti.","Con 1.500 euro di entrate e 1.300 di spese risparmi 200 euro.","L'inflazione può ridurre il potere d'acquisto del risparmio."],
+["Investimento","B","Impiego di denaro per cercare di ottenere un risultato economico futuro.","Acquistare un titolo finanziario è una forma di investimento.","Il capitale può diminuire."],
+["Capitale","B","Somma di denaro o insieme di risorse economiche disponibili.","10.000 euro destinati a un progetto rappresentano un capitale.","Non è necessariamente opportuno investire tutte le risorse disponibili."],
+["Rendimento","B","Risultato economico di un investimento rispetto al capitale impiegato.","Da 1.000 a 1.050 euro equivale a un rendimento lordo del 5%, senza altri flussi.","I risultati passati non garantiscono quelli futuri."],
+["Rendimento reale","B","Rendimento corretto per l'effetto dell'inflazione.","Con rendimento nominale del 5% e inflazione del 3%, il rendimento reale è circa l'1,94%.","Può essere negativo anche con un rendimento nominale positivo."],
+["Inflazione","B","Aumento generalizzato dei prezzi di beni e servizi nel tempo.","Un paniere che passa da 100 a 103 euro è aumentato del 3%.","Riduce il potere d'acquisto della moneta."],
+["Potere d'acquisto","B","Quantità di beni e servizi acquistabili con una somma di denaro.","Se i prezzi aumentano, con 100 euro compri meno prodotti.","La stessa cifra può avere un valore reale diverso nel tempo."],
+["Liquidità","B","Disponibilità di denaro rapidamente utilizzabile; per uno strumento indica anche la facilità di scambio.","Il denaro sul conto è in genere più immediatamente disponibile di un immobile.","Uno strumento poco liquido può essere difficile da vendere."],
+["Patrimonio","B","Insieme delle attività economiche possedute; il patrimonio netto considera anche i debiti.","Risparmi, investimenti e immobili possono far parte del patrimonio.","Il valore può cambiare nel tempo."],
+["Attività finanziaria","B","Strumento o diritto di natura finanziaria con un valore economico.","Azioni e obbligazioni sono attività finanziarie.","Ogni attività presenta rischi specifici."],
+["Passività","B","Debito o obbligazione economica verso altri soggetti.","Un mutuo da rimborsare è una passività.","Scadenze e interessi incidono sulle finanze personali."],
+["Bilancio personale","B","Riepilogo delle entrate, delle spese, delle attività e dei debiti.","Annotare stipendio, bollette e rate aiuta a conoscere la propria situazione.","Dati incompleti possono portare a valutazioni errate."],
+["Fondo di emergenza","B","Riserva di denaro destinata a spese impreviste.","Può servire per una riparazione urgente.","La dimensione adeguata dipende dalle esigenze personali."],
+["Mercato finanziario","B","Sistema nel quale si raccolgono capitali e si scambiano strumenti finanziari.","La Borsa è un esempio di mercato finanziario.","I prezzi possono cambiare rapidamente."],
+["Intermediario finanziario","B","Soggetto autorizzato a offrire determinati servizi finanziari.","Una banca può prestare servizi d'investimento secondo le autorizzazioni possedute.","Verificare sempre autorizzazioni, condizioni e costi."],
+["Conto corrente","B","Rapporto bancario utilizzato per incassi, pagamenti e gestione del denaro.","Ricevere lo stipendio e pagare le bollette tramite conto.","Costi e tutele dipendono dalle condizioni applicabili."],
+["Deposito bancario","B","Somma affidata a una banca secondo condizioni contrattuali.","Un deposito può riconoscere interessi.","Verificare vincoli, condizioni e tutele previste."],
+["Interesse semplice","B","Interesse calcolato sul capitale iniziale.","1.000 euro al 5% semplice producono 50 euro all'anno.","L'esempio non considera costi o imposte."],
+["Interesse composto","B","Meccanismo per cui i rendimenti reinvestiti possono generare altri rendimenti.","1.000 euro al 5% annuo ipotetico diventano 1.102,50 euro in due anni.","Il rendimento effettivo non è costante né garantito."],
+["Orizzonte temporale","B","Periodo previsto prima di utilizzare il denaro o terminare un investimento.","Un obiettivo fra due anni è diverso da uno fra vent'anni.","Un orizzonte lungo non elimina le perdite."],
+
+["Azione","A","Titolo che rappresenta una quota del capitale di una società.","Acquistando azioni diventi proprietario di una piccola parte della società.","Il prezzo può diminuire anche molto."],
+["Azionista","A","Persona o soggetto che possiede azioni.","Chi detiene dieci azioni è azionista della società.","I diritti dipendono dal tipo di azione."],
+["Dividendo","A","Parte degli utili che una società può distribuire agli azionisti.","Una società può pagare 0,50 euro per azione.","Il pagamento non è garantito."],
+["Borsa valori","A","Mercato organizzato in cui si negoziano strumenti finanziari.","In Borsa si possono scambiare azioni ed ETF.","Essere quotati non elimina i rischi."],
+["Quotazione","A","Ammissione di uno strumento alle negoziazioni o prezzo rilevato sul mercato.","Il prezzo di un'azione quotata cambia durante la giornata.","Il prezzo osservato non garantisce l'esecuzione di un ordine."],
+["Capitalizzazione di mercato","A","Valore di mercato delle azioni di una società.","Un milione di azioni a 20 euro vale complessivamente 20 milioni.","Non coincide necessariamente con il valore intrinseco della società."],
+["Indice azionario","A","Indicatore dell'andamento di un insieme di azioni.","Un indice può seguire le maggiori società di un mercato.","L'indice non è direttamente acquistabile come un singolo titolo."],
+["Mercato primario","A","Mercato in cui vengono emessi nuovi strumenti finanziari.","Una società raccoglie capitale emettendo azioni.","Le condizioni dell'emissione richiedono attenzione."],
+["Mercato secondario","A","Mercato in cui si scambiano strumenti già emessi.","Un investitore vende azioni a un altro investitore.","Prezzi e liquidità possono variare."],
+["IPO","A","Offerta pubblica iniziale collegata al primo collocamento di azioni di una società sul mercato.","Una società decide di quotarsi in Borsa.","Le nuove quotazioni possono essere molto volatili."],
+["Ordine a mercato","A","Ordine che cerca l'esecuzione al miglior prezzo disponibile.","Si richiede un acquisto alle condizioni presenti sul mercato.","Il prezzo finale può differire da quello visto prima."],
+["Ordine limite","A","Ordine eseguibile soltanto a un prezzo stabilito o migliore.","Impostare un acquisto con prezzo massimo di 25 euro.","L'ordine potrebbe non essere eseguito."],
+["Spread denaro-lettera","A","Differenza tra miglior prezzo di acquisto e miglior prezzo di vendita.","Tra 9,98 e 10,02 euro lo spread è 0,04 euro.","Uno spread ampio aumenta il costo implicito."],
+["Volumi di scambio","A","Quantità di strumenti negoziati in un periodo.","In una seduta possono essere scambiate 100.000 azioni.","I volumi non prevedono da soli i prezzi futuri."],
+["Buyback","A","Operazione con cui una società riacquista azioni proprie.","Una società compra sul mercato parte delle sue azioni.","Non garantisce un aumento del prezzo."],
+
+["Obbligazione","O","Titolo di debito emesso per raccogliere capitale.","Un'impresa emette un titolo da 1.000 euro con una scadenza.","Esistono rischi di credito, tasso e liquidità."],
+["Cedola","O","Pagamento periodico di interessi previsto da alcune obbligazioni.","Una cedola annua del 3% su 1.000 euro equivale a 30 euro lordi.","Non tutte le obbligazioni pagano cedole."],
+["Valore nominale","O","Importo di riferimento indicato nelle condizioni di uno strumento.","Un'obbligazione può avere nominale di 1.000 euro.","Il prezzo di mercato può essere differente."],
+["Scadenza","O","Data prevista per la conclusione o il rimborso di uno strumento.","Un titolo può scadere il 31 dicembre 2030.","Il rimborso dipende dalle condizioni e dall'emittente."],
+["Tasso fisso","O","Tasso che resta invariato secondo il contratto.","Un titolo paga il 3% annuo sul nominale.","Il prezzo di mercato può comunque oscillare."],
+["Tasso variabile","O","Tasso che cambia secondo un parametro e regole prestabilite.","Una cedola può essere collegata a un indice di riferimento.","I pagamenti possono aumentare o diminuire."],
+["Tasso di interesse","O","Percentuale applicata a una somma per calcolare gli interessi.","Il 4% di 1.000 euro è 40 euro in un anno, nel caso semplice.","Conta la periodicità e il metodo di calcolo."],
+["Tasso nominale","O","Tasso dichiarato nelle condizioni di uno strumento.","Una cedola del 4% non equivale sempre a un rendimento effettivo del 4%.","Prezzo, tempi e costi incidono sul risultato."],
+["Rendimento a scadenza","O","Tasso che collega prezzo corrente e flussi futuri previsti di un'obbligazione.","Considera prezzo di acquisto, cedole e rimborso finale.","Dipende dalle ipotesi sui pagamenti futuri."],
+["Duration","O","Misura della sensibilità del prezzo di un'obbligazione ai cambiamenti dei rendimenti.","Una duration modificata di 5 indica una variazione approssimativa del 5% per un punto percentuale di rendimento, per piccoli movimenti.","È una stima e non descrive tutti i rischi."],
+["Rischio di credito","O","Possibilità che un debitore non rispetti gli impegni di pagamento.","Un emittente in difficoltà può non pagare interessi o capitale.","Le perdite possono essere elevate."],
+["Rating creditizio","O","Giudizio sulla qualità creditizia di un emittente o titolo.","Un'agenzia assegna una classe di rating.","È un'opinione, non una garanzia."],
+["Spread obbligazionario","O","Differenza di rendimento tra due titoli o riferimenti.","Si confrontano due titoli di Stato con scadenze simili.","Lo spread cambia per diversi motivi."],
+["Titolo di Stato","O","Strumento di debito emesso da un governo.","Uno Stato raccoglie fondi tramite obbligazioni.","Anche i titoli di Stato comportano rischi."],
+["Obbligazione zero coupon","O","Obbligazione che normalmente non paga cedole periodiche.","Un titolo acquistato a 950 euro può prevedere un rimborso di 1.000 euro.","Rimborso e prezzo di vendita non sono privi di rischio."],
+
+["ETF","F","Fondo negoziato in Borsa con una politica d'investimento definita.","Un ETF può contenere centinaia di azioni.","Non tutti gli ETF sono passivi e il capitale può diminuire."],
+["Fondo comune","F","Patrimonio raccolto da più investitori e gestito secondo regole definite.","Un fondo può detenere azioni e obbligazioni.","Costi e rischi variano tra prodotti."],
+["NAV","F","Valore netto del patrimonio di un fondo, spesso espresso per quota.","10 milioni di patrimonio netto divisi in un milione di quote danno 10 euro per quota.","Il prezzo di un ETF può differire dal NAV."],
+["Quota di fondo","F","Unità che rappresenta una partecipazione a un fondo.","Con 1.000 euro e quota da 10 euro si acquistano 100 quote, senza costi.","Il valore della quota può scendere."],
+["Gestione attiva","F","Gestione in cui vengono selezionati investimenti secondo analisi e decisioni del gestore.","Un gestore sceglie titoli in base alle proprie valutazioni.","Non garantisce risultati superiori al mercato."],
+["Gestione passiva","F","Gestione che mira a replicare un indice o parametro.","Un fondo segue un indice azionario.","La replica può discostarsi dal riferimento."],
+["Benchmark","F","Parametro usato per confrontare l'andamento di un investimento.","Un fondo viene confrontato con un indice.","Bisogna considerare anche rischi e costi."],
+["Replica fisica","F","Replica di un indice tramite detenzione diretta di tutti o parte dei titoli.","Un ETF acquista azioni presenti nell'indice.","Non elimina rischi e scostamenti."],
+["Replica sintetica","F","Replica realizzata usando strumenti derivati, spesso swap.","Un ETF ottiene l'esposizione a un indice tramite un contratto.","Può comportare rischio di controparte."],
+["ETF ad accumulazione","F","ETF che reinveste i proventi invece di distribuirli periodicamente.","I dividendi ricevuti vengono reinvestiti nel fondo.","Il reinvestimento non garantisce guadagni."],
+["ETF a distribuzione","F","ETF che può distribuire periodicamente proventi.","Un fondo versa proventi secondo la sua politica.","Importi e frequenza non sono necessariamente garantiti."],
+["TER","F","Indicatore dei costi correnti annui di un fondo.","Lo 0,20% di 10.000 euro equivale indicativamente a 20 euro annui.","Non comprende necessariamente tutti i costi."],
+["Tracking error","F","Misura della variabilità degli scostamenti tra fondo e benchmark.","Un ETF può seguire l'indice con differenze nei rendimenti.","Un valore basso non significa assenza di rischio."],
+["Tracking difference","F","Differenza di rendimento tra fondo e benchmark in un periodo.","Indice al 5% e fondo al 4,7%: differenza di -0,3 punti percentuali.","Può dipendere da costi e altri fattori."],
+["UCITS","F","Quadro normativo europeo applicabile a determinate categorie di fondi.","Molti ETF distribuiti nell'Unione europea sono UCITS.","La regolamentazione non garantisce il capitale."],
+
+["Diversificazione","S","Distribuzione degli investimenti tra strumenti o fattori di rischio diversi.","Non concentrare tutto in una sola società.","Non elimina il rischio di perdita."],
+["Asset allocation","S","Ripartizione del patrimonio tra categorie di investimento.","Distinguere liquidità, obbligazioni e azioni.","Non esiste una ripartizione valida per tutti."],
+["PAC","S","Piano che prevede investimenti periodici.","Versare 200 euro al mese.","Non garantisce guadagni né evita perdite."],
+["PIC","S","Investimento di un capitale in un'unica soluzione.","Investire una somma disponibile in una sola operazione.","Espone subito l'intera somma ai movimenti del mercato."],
+["Ribilanciamento","S","Modifica dei pesi del portafoglio verso una ripartizione di riferimento.","Riportare una categoria dal 55% al peso previsto del 40%.","Può comportare costi e conseguenze fiscali."],
+["Obiettivo finanziario","S","Risultato economico da raggiungere entro un periodo.","Accantonare denaro per una spesa futura.","Bisogna considerare tempi e incertezza."],
+["Pianificazione finanziaria","S","Organizzazione delle risorse rispetto a bisogni e obiettivi.","Stimare entrate, spese e impegni futuri.","Le ipotesi vanno aggiornate."],
+["Profilo di rischio","S","Valutazione della capacità e disponibilità a sostenere rischi finanziari.","Due persone con lo stesso capitale possono tollerare perdite diverse.","Il rendimento desiderato non determina il rischio sostenibile."],
+["Tolleranza al rischio","S","Disponibilità psicologica ad affrontare oscillazioni e perdite.","Un calo del 10% può essere vissuto diversamente da due persone.","Può cambiare durante le crisi."],
+["Capacità di rischio","S","Possibilità economica di sostenere eventuali perdite.","Chi deve usare presto il denaro può avere capacità di rischio limitata.","Non coincide con la tolleranza emotiva."],
+["Allocazione strategica","S","Ripartizione di riferimento pensata per il medio-lungo periodo.","Definire pesi di lungo periodo per diverse attività.","Deve essere coerente con esigenze e vincoli."],
+["Allocazione tattica","S","Modifica temporanea dei pesi rispetto alla strategia di riferimento.","Aumentare temporaneamente il peso di una categoria.","Le decisioni tattiche possono peggiorare i risultati."],
+["Reinvestimento","S","Impiego di proventi o rimborsi in nuovi investimenti.","Usare interessi ricevuti per acquistare altri strumenti.","Anche i proventi reinvestiti sono esposti al rischio."],
+["Costo opportunità","S","Valore della migliore alternativa a cui si rinuncia facendo una scelta.","Spendere una somma significa non poterla destinare contemporaneamente ad altro.","Il confronto richiede ipotesi spesso incerte."],
+["Piano di decumulo","S","Programma di prelievi periodici da un patrimonio.","Prelevare una cifra mensile dal capitale accumulato.","Prelievi e perdite possono esaurire il patrimonio."],
+
+["Volatilità","R","Misura statistica delle oscillazioni dei rendimenti.","Un prezzo passa da 100 a 90 e poi a 105.","Non rappresenta da sola tutti i rischi."],
+["Drawdown","R","Riduzione percentuale da un massimo precedente a un minimo successivo.","Da 100 a 75 corrisponde a un drawdown del 25%.","Per recuperare il 25% perso serve poi una crescita di circa il 33,33%."],
+["Rischio di mercato","R","Possibilità di perdite dovute ai movimenti dei prezzi.","Un calo generale delle Borse riduce il valore di molti fondi.","La diversificazione non elimina le crisi generali."],
+["Rischio di liquidità","R","Possibilità di non vendere rapidamente a un prezzo ragionevole.","Un titolo con pochi scambi può avere uno spread elevato.","Può aumentare nei momenti di tensione."],
+["Rischio di cambio","R","Possibilità che variazioni valutarie influenzino un investimento.","Un investimento in dollari cambia valore in euro anche se il prezzo in dollari resta fermo.","Il cambio può amplificare o ridurre il risultato."],
+["Rischio di controparte","R","Possibilità che una parte di un contratto non rispetti gli obblighi.","Una controparte di uno swap potrebbe non adempiere.","Le protezioni non eliminano necessariamente il rischio."],
+["Rischio di concentrazione","R","Rischio derivante da un'esposizione elevata a pochi strumenti o settori.","Avere quasi tutto il capitale in una sola società.","Un singolo evento può causare grandi perdite."],
+["Rischio di inflazione","R","Possibilità che l'aumento dei prezzi riduca il valore reale del denaro.","Un rendimento del 2% con inflazione del 4% perde potere d'acquisto.","Bisogna distinguere rendimento nominale e reale."],
+["Leva finanziaria","R","Utilizzo di debito o strumenti che amplificano l'esposizione.","Una leva 2 amplifica rialzi e ribassi dell'attività sottostante.","Può causare perdite rapide e talvolta superiori al capitale iniziale."],
+["ESG","R","Criteri ambientali, sociali e di governance utilizzati nell'analisi degli investimenti.","Si esaminano emissioni, condizioni di lavoro e gestione aziendale.","Un'etichetta ESG non garantisce rendimento o sicurezza."],
+
+["Commissione di negoziazione","C","Costo applicato per eseguire un'operazione finanziaria.","Un acquisto può prevedere una commissione di 5 euro.","I costi riducono il risultato netto."],
+["Commissione di gestione","C","Compenso per la gestione di un prodotto o servizio.","Un fondo può addebitare una percentuale annua.","Va considerata insieme agli altri costi."],
+["Plusvalenza","C","Differenza positiva realizzata rispetto al costo fiscalmente riconosciuto.","Vendere a 1.200 euro uno strumento acquistato a 1.000 genera una differenza lorda positiva di 200 euro.","Il trattamento fiscale dipende dalle regole applicabili."],
+["Minusvalenza","C","Differenza negativa realizzata rispetto al costo fiscalmente riconosciuto.","Vendere a 900 euro uno strumento acquistato a 1.000 genera una differenza lorda negativa di 100 euro.","Le compensazioni fiscali dipendono dalla normativa."],
+["Imposta di bollo","C","Tributo previsto in determinate circostanze su rapporti o prodotti finanziari.","Alcuni rapporti possono essere soggetti a imposta di bollo.","Importi ed esenzioni dipendono dalle regole vigenti."],
+["Regime amministrato","C","Regime in cui un intermediario gestisce determinati adempimenti fiscali previsti.","Una banca può applicare trattenute sulle operazioni interessate.","Non tutte le situazioni sono trattate allo stesso modo."],
+["Regime dichiarativo","C","Regime in cui il contribuente gestisce gli obblighi dichiarativi previsti.","Alcune operazioni richiedono indicazioni nella dichiarazione dei redditi.","Le regole dipendono dalla situazione personale."],
+["KID","C","Documento contenente informazioni chiave su determinati prodotti d'investimento al dettaglio.","Può presentare rischi, costi e scenari di un prodotto.","Gli scenari non sono promesse di rendimento."],
+["Adeguatezza e appropriatezza","C","Valutazioni previste dalle regole sui servizi d'investimento, con finalità differenti.","L'adeguatezza, quando richiesta, considera anche obiettivi e situazione finanziaria.","Le verifiche dipendono dal servizio prestato."],
+["CONSOB","C","Autorità italiana con funzioni di vigilanza e tutela nei mercati finanziari secondo le proprie competenze.","Pubblica materiali informativi per gli investitori.","Finanza Facile è indipendente e non affiliata a CONSOB."]
+];
+
+const glossary=rawTerms.map(
+  ([name,code,definition,example,warning])=>({
+    name,code,definition,example,warning,
+    category:categories[code].name
+  })
+);
+
+/* STATO */
+const content=document.getElementById("content");
+const navigation=document.getElementById("navigation");
+
+let page="Home";
+let selected=null;
+let searchText="";
+let categoryFilter="Tutte";
+let favorites=[];
+
+try{
+  const saved=JSON.parse(
+    localStorage.getItem("ff-favorites")||"[]"
+  );
+  if(Array.isArray(saved)){
+    favorites=saved.filter(x=>typeof x==="string");
+  }
+}catch(error){
+  favorites=[];
+}
+
+function esc(value){
+  return String(value).replace(/[&<>"']/g,c=>({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#39;"
+  })[c]);
+}
+
+function euro(value){
+  return new Intl.NumberFormat("it-IT",{
+    style:"currency",
+    currency:"EUR",
+    maximumFractionDigits:2
+  }).format(value);
+}
+
+function saveFavorites(){
+  try{
+    localStorage.setItem(
+      "ff-favorites",
+      JSON.stringify(favorites)
+    );
+  }catch(error){
+    console.warn("Salvataggio preferiti non riuscito",error);
+  }
+}
+
+function go(destination,category="Tutte"){
+  page=destination;
+  selected=null;
+  searchText="";
+  categoryFilter=category;
+  render();
+  window.scrollTo(0,0);
+}
+
+function openTerm(name){
+  selected=glossary.find(t=>t.name===name);
+  if(selected){
+    render();
+    window.scrollTo(0,0);
+  }
+}
+
+function toggleFavorite(name){
+  favorites=favorites.includes(name)
+    ?favorites.filter(x=>x!==name)
+    :[...favorites,name];
+
+  saveFavorites();
+  render();
+}
+
+/* HOME: SOLO RIQUADRI, NON GLOSSARIO */
+function renderHome(){
+  content.innerHTML=`
+    <section class="hero">
+      <h2>Benvenuto in Finanza Facile</h2>
+      <p>
+        Impara a conoscere la finanza,
+        un concetto alla volta.
+      </p>
+      <div class="hero-stat">
+        ${glossary.length} termini spiegati semplicemente
+      </div>
+    </section>
+
+    <h2 class="section-title">Scegli un argomento</h2>
+
+    <div class="category-grid">
+      ${Object.entries(categories).map(([code,c],index)=>{
+        const count=glossary.filter(t=>t.code===code).length;
+        return `
+          <button
+            class="category-tile ${c.color}
+              ${index===6?"tile-wide":""}"
+            data-home-category="${code}"
+            aria-label="Apri ${esc(c.name)}">
+            <span class="emoji" aria-hidden="true">
+              ${c.icon}
+            </span>
+            <span>
+              <span class="name">${esc(c.short)}</span>
+              <span class="amount" style="display:block">
+                ${count} termini
+              </span>
+            </span>
+          </button>
+        `;
+      }).join("")}
+    </div>
+
+    <h2 class="section-title">Esplora Finanza Facile</h2>
+
+    <div class="home-shortcuts">
+      <button class="shortcut" data-home-go="Glossario">
+        <span>📚</span>
+        Glossario A–Z
+      </button>
+      <button class="shortcut" data-home-go="Strumenti">
+        <span>🧮</span>
+        Simulatore
+      </button>
+    </div>
+
+    <section class="card">
+      <h3>💡 Imparare prima di decidere</h3>
+      <p>
+        Ogni termine contiene una spiegazione,
+        un esempio pratico e un'avvertenza
+        per comprendere meglio i rischi.
+      </p>
+    </section>
+
+    <p class="small">
+      Finanza Facile è un progetto educativo.
+      Non offre consulenza finanziaria
+      né raccomandazioni d'investimento.
+    </p>
+  `;
+
+  content.querySelectorAll("[data-home-category]")
+    .forEach(button=>{
+      button.onclick=()=>{
+        go("Glossario",button.dataset.homeCategory);
+      };
+    });
+
+  content.querySelectorAll("[data-home-go]")
+    .forEach(button=>{
+      button.onclick=()=>{
+        go(button.dataset.homeGo);
+      };
+    });
+}
+
+/* GLOSSARIO */
+function filteredTerms(){
+  return glossary.filter(t=>{
+    const favoriteOK=
+      page!=="Preferiti"||
+      favorites.includes(t.name);
+
+    const categoryOK=
+      categoryFilter==="Tutte"||
+      t.code===categoryFilter;
+
+    const haystack=(
+      t.name+" "+t.category+" "+
+      t.definition+" "+t.example
+    ).toLocaleLowerCase("it");
+
+    return favoriteOK&&categoryOK&&
+      haystack.includes(searchText.toLocaleLowerCase("it"));
+  }).sort((a,b)=>a.name.localeCompare(b.name,"it"));
+}
+
+function termCards(terms){
+  if(terms.length===0){
+    return `<div class="card">
+      <p>Nessun termine trovato.</p>
+    </div>`;
+  }
+
+  return terms.map(t=>`
+    <article class="card term-card"
+      data-term="${esc(t.name)}"
+      tabindex="0"
+      role="button"
+      aria-label="Apri ${esc(t.name)}">
+      <div class="term-top">
+        <span class="term-category">
+          ${esc(t.category)}
+        </span>
+        <span aria-hidden="true">
+          ${favorites.includes(t.name)?"★":""}
+        </span>
+      </div>
+      <h3>${esc(t.name)}</h3>
+      <p>${esc(t.definition)}</p>
+    </article>
+  `).join("");
+}
+
+function renderGlossary(){
+  content.innerHTML=`
+    <h2>${page==="Preferiti"?"I tuoi preferiti":"Glossario finanziario"}</h2>
+
+    <p>
+      ${page==="Preferiti"
+        ?"Ritrova i termini che hai salvato."
+        :"Cerca tra 100 termini oppure scegli una categoria."}
+    </p>
+
+    <input id="search" class="search"
+      type="search"
+      placeholder="Cerca un termine..."
+      aria-label="Cerca nel glossario"
+      value="${esc(searchText)}">
+
+    <div class="chips" id="chips">
+      <button class="chip ${categoryFilter==="Tutte"?"active":""}"
+        data-category="Tutte">Tutti</button>
+
+      ${Object.entries(categories).map(([code,c])=>`
+        <button
+          class="chip ${categoryFilter===code?"active":""}"
+          data-category="${code}">
+          ${esc(c.short)}
+        </button>
+      `).join("")}
+    </div>
+
+    <div class="list-heading">
+      <h3>Termini A–Z</h3>
+      <span id="count" class="count"></span>
+    </div>
+
+    <div id="termList"></div>
+
+    <p class="small">
+      Contenuti educativi, non consulenza
+      o raccomandazioni d'investimento.
+    </p>
+  `;
+
+  function refresh(){
+    const list=filteredTerms();
+    document.getElementById("termList").innerHTML=
+      termCards(list);
+    document.getElementById("count").textContent=
+      list.length+" termini";
+  }
+
+  document.getElementById("search").oninput=e=>{
+    searchText=e.target.value;
+    refresh();
+  };
+
+  content.querySelectorAll("[data-category]")
+    .forEach(button=>{
+      button.onclick=()=>{
+        categoryFilter=button.dataset.category;
+
+        content.querySelectorAll("[data-category]")
+          .forEach(chip=>{
+            chip.classList.toggle(
+              "active",
+              chip.dataset.category===categoryFilter
+            );
+          });
+
+        refresh();
+      };
+    });
+
+  refresh();
+}
+
+/* DETTAGLIO TERMINE */
+function renderTerm(){
+  const t=selected;
+  const isFavorite=favorites.includes(t.name);
+
+  const related=glossary
+    .filter(item=>item.code===t.code&&item.name!==t.name)
+    .sort((a,b)=>a.name.localeCompare(b.name,"it"))
+    .slice(0,4);
+
+  content.innerHTML=`
+    <button id="back" class="action action-secondary">
+      ← Indietro
+    </button>
+
+    <h2>${esc(t.name)}</h2>
+    <p class="term-category">${esc(t.category)}</p>
+
+    <section class="card">
+      <h3>📖 In parole semplici</h3>
+      <p>${esc(t.definition)}</p>
+    </section>
+
+    <section class="card example">
+      <h3>💡 Esempio pratico</h3>
+      <p>${esc(t.example)}</p>
+    </section>
+
+    <section class="card warning">
+      <h3>⚠ Da ricordare</h3>
+      <p>${esc(t.warning)}</p>
+    </section>
+
+    <button id="favorite" class="action">
+      ${isFavorite
+        ?"★ Rimuovi dai preferiti"
+        :"☆ Aggiungi ai preferiti"}
+    </button>
+
+    <h3>Altri termini dello stesso argomento</h3>
+    ${termCards(related)}
+  `;
+
+  document.getElementById("back").onclick=()=>{
+    selected=null;
+    render();
+  };
+
+  document.getElementById("favorite").onclick=()=>{
+    toggleFavorite(t.name);
+  };
+}
+
+/* SIMULATORE */
+function renderCalculator(){
+  content.innerHTML=`
+    <h2>Simulatore dell'interesse composto</h2>
+    <p>
+      Muovi i cursori o modifica direttamente
+      i numeri. Il grafico cambia subito.
+    </p>
+
+    <section class="card">
+
+      <div class="field">
+        <div class="field-top">
+          <label for="capitalNumber">Capitale iniziale</label>
+          <div class="number-wrap">
+            <input id="capitalNumber" type="number"
+              min="0" max="100000000"
+              step="any" value="10000"
+              inputmode="decimal">
+            <span>€</span>
+          </div>
+        </div>
+        <input id="capitalSlider" type="range"
+          min="0" max="1000000" step="1000"
+          value="10000"
+          aria-label="Cursore capitale iniziale">
+        <div class="range-labels">
+          <span>0 €</span><span>1.000.000 €</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-top">
+          <label for="monthlyNumber">Versamento mensile</label>
+          <div class="number-wrap">
+            <input id="monthlyNumber" type="number"
+              min="0" max="1000000"
+              step="any" value="200"
+              inputmode="decimal">
+            <span>€</span>
+          </div>
+        </div>
+        <input id="monthlySlider" type="range"
+          min="0" max="10000" step="50"
+          value="200"
+          aria-label="Cursore versamento mensile">
+        <div class="range-labels">
+          <span>0 €</span><span>10.000 €</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-top">
+          <label for="yearsNumber">Durata</label>
+          <div class="number-wrap">
+            <input id="yearsNumber" type="number"
+              min="1" max="100"
+              step="1" value="20"
+              inputmode="numeric">
+            <span>anni</span>
+          </div>
+        </div>
+        <input id="yearsSlider" type="range"
+          min="1" max="50" step="1"
+          value="20"
+          aria-label="Cursore durata">
+        <div class="range-labels">
+          <span>1 anno</span><span>50 anni</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-top">
+          <label for="rateNumber">
+            Rendimento annuo ipotetico
+          </label>
+          <div class="number-wrap">
+            <input id="rateNumber" type="number"
+              min="-100" max="100"
+              step="any" value="5"
+              inputmode="decimal">
+            <span>%</span>
+          </div>
+        </div>
+        <input id="rateSlider" type="range"
+          min="-10" max="15" step="0.5"
+          value="5"
+          aria-label="Cursore rendimento annuo">
+        <div class="range-labels">
+          <span>−10%</span><span>+15%</span>
+        </div>
+      </div>
+
+      <div class="result" aria-live="polite">
+        <div>Capitale finale simulato</div>
+        <h2 id="total">—</h2>
+
+        <div class="result-row">
+          <span>Totale versato</span>
+          <strong id="paid">—</strong>
+        </div>
+
+        <div class="result-row">
+          <span>Rendimento ipotetico</span>
+          <strong id="gain">—</strong>
+        </div>
+      </div>
+
+      <p id="calcError" class="error"></p>
+    </section>
+
+    <section class="card">
+      <h3>📈 Evoluzione del capitale</h3>
+
+      <div class="legend">
+        <span>
+          <i class="dot" style="background:#124F49"></i>
+          Capitale totale
+        </span>
+        <span>
+          <i class="dot" style="background:#C49A45"></i>
+          Totale versato
+        </span>
+      </div>
+
+      <div id="chart" class="chart-wrap"
+        role="img"
+        aria-label="Grafico evoluzione del capitale"></div>
+
+      <div class="summary">
+        <div>
+          Capitale iniziale
+          <strong id="summaryInitial">—</strong>
+        </div>
+        <div>
+          Versamenti mensili complessivi
+          <strong id="summaryMonthly">—</strong>
+        </div>
+      </div>
+
+      <p class="small">
+        Il grafico confronta quanto hai versato
+        con il capitale finale ipotetico.
+      </p>
+    </section>
+
+    <section class="card warning">
+      <h3>⚠ Attenzione</h3>
+      <p>
+        Questa è una simulazione matematica,
+        non una previsione.
+      </p>
+      <p>
+        Si ipotizza un rendimento annuo costante,
+        convertito in rendimento mensile equivalente,
+        con versamenti alla fine di ogni mese.
+        Non sono considerati costi, imposte
+        e inflazione.
+      </p>
+    </section>
+  `;
+
+  const names=["capital","monthly","years","rate"];
+
+  const numberInput=name=>
+    document.getElementById(name+"Number");
+
+  const sliderInput=name=>
+    document.getElementById(name+"Slider");
+
+  names.forEach(name=>{
+    const input=numberInput(name);
+    const slider=sliderInput(name);
+
+    slider.addEventListener("input",()=>{
+      input.value=slider.value;
+      update();
+    });
+
+    input.addEventListener("input",()=>{
+      const value=Number(input.value);
+
+      if(input.value.trim()!==""&&Number.isFinite(value)){
+        slider.value=Math.max(
+          Number(slider.min),
+          Math.min(Number(slider.max),value)
+        );
+      }
+
+      update();
+    });
+  });
+
+  function update(){
+    const raw=names.map(name=>numberInput(name).value);
+    const [capital,monthly,years,rate]=raw.map(Number);
+
+    const valid=
+      raw.every(v=>v.trim()!=="")&&
+      [capital,monthly,years,rate].every(Number.isFinite)&&
+      capital>=0&&capital<=100000000&&
+      monthly>=0&&monthly<=1000000&&
+      Number.isInteger(years)&&
+      years>=1&&years<=100&&
+      rate>=-100&&rate<=100;
+
+    const totalEl=document.getElementById("total");
+    const paidEl=document.getElementById("paid");
+    const gainEl=document.getElementById("gain");
+    const errorEl=document.getElementById("calcError");
+    const chartEl=document.getElementById("chart");
+
+    if(!valid){
+      totalEl.textContent="—";
+      paidEl.textContent="—";
+      gainEl.textContent="—";
+      chartEl.innerHTML="";
+      document.getElementById("summaryInitial").textContent="—";
+      document.getElementById("summaryMonthly").textContent="—";
+      errorEl.textContent=
+        "Controlla i valori: capitale 0–100 milioni €, "+
+        "versamento 0–1 milione €/mese, "+
+        "durata 1–100 anni, rendimento −100% / +100%.";
+      return;
+    }
+
+    errorEl.textContent="";
+
+    const monthlyRate=Math.pow(1+rate/100,1/12)-1;
+    let balance=capital;
+
+    const points=[{
+      year:0,total:capital,paid:capital
+    }];
+
+    for(let month=1;month<=years*12;month++){
+      balance=balance*(1+monthlyRate)+monthly;
+
+      if(month%12===0){
+        points.push({
+          year:month/12,
+          total:balance,
+          paid:capital+monthly*month
+        });
+      }
+    }
+
+    if(!Number.isFinite(balance)){
+      totalEl.textContent="—";
+      paidEl.textContent="—";
+      gainEl.textContent="—";
+      chartEl.innerHTML="";
+      errorEl.textContent="Risultato fuori scala.";
+      return;
+    }
+
+    const paid=capital+monthly*years*12;
+    const gain=balance-paid;
+
+    totalEl.textContent=euro(balance);
+    paidEl.textContent=euro(paid);
+    gainEl.textContent=
+      (gain>=0?"+":"−")+euro(Math.abs(gain));
+
+    document.getElementById("summaryInitial").textContent=
+      euro(capital);
+
+    document.getElementById("summaryMonthly").textContent=
+      euro(monthly*years*12);
+
+    drawChart(points);
+  }
+
+  update();
+}
+
+/* GRAFICO SVG SENZA LIBRERIE */
+function drawChart(points){
+  const W=640,H=310;
+  const left=75,right=17,top=18,bottom=45;
+  const plotW=W-left-right;
+  const plotH=H-top-bottom;
+
+  const maxValue=Math.max(
+    1,
+    ...points.map(p=>Math.max(p.total,p.paid))
+  )*1.08;
+
+  const maxYear=Math.max(
+    1,
+    points[points.length-1].year
+  );
+
+  const x=year=>left+year/maxYear*plotW;
+  const y=value=>top+plotH-value/maxValue*plotH;
+
+  function path(key){
+    return points.map((p,i)=>
+      (i===0?"M":"L")+
+      x(p.year).toFixed(2)+" "+
+      y(p[key]).toFixed(2)
+    ).join(" ");
+  }
+
+  function shortEuro(value){
+    if(value>=1000000000){
+      return (value/1000000000).toLocaleString("it-IT",{
+        maximumFractionDigits:1
+      })+" mld";
+    }
+    if(value>=1000000){
+      return (value/1000000).toLocaleString("it-IT",{
+        maximumFractionDigits:1
+      })+" mln";
+    }
+    if(value>=1000){
+      return (value/1000).toLocaleString("it-IT",{
+        maximumFractionDigits:0
+      })+" mila";
+    }
+    return Math.round(value)+" €";
+  }
+
+  let grid="";
+  for(let i=0;i<=4;i++){
+    const value=maxValue*i/4;
+    const yy=y(value);
+
+    grid+=`
+      <line x1="${left}" y1="${yy}"
+        x2="${W-right}" y2="${yy}"
+        stroke="#E1E6E7" stroke-width="1"/>
+      <text x="${left-9}" y="${yy+4}"
+        text-anchor="end" font-size="11"
+        fill="#65717C">${shortEuro(value)}</text>
+    `;
+  }
+
+  let labels="";
+  for(let i=0;i<=4;i++){
+    const year=maxYear*i/4;
+
+    labels+=`
+      <text x="${x(year)}" y="${H-17}"
+        text-anchor="middle" font-size="11"
+        fill="#65717C">${Math.round(year)} a</text>
+    `;
+  }
+
+  const last=points[points.length-1];
+
+  const chart=document.getElementById("chart");
+
+  chart.innerHTML=`
+    <svg viewBox="0 0 ${W} ${H}"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true">
+
+      ${grid}
+      ${labels}
+
+      <path d="${path("paid")}"
+        fill="none"
+        stroke="#C49A45"
+        stroke-width="3"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+
+      <path d="${path("total")}"
+        fill="none"
+        stroke="#124F49"
+        stroke-width="3.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+
+      <circle cx="${x(last.year)}"
+        cy="${y(last.total)}"
+        r="5" fill="#124F49"
+        stroke="white" stroke-width="2"/>
+
+      <circle cx="${x(last.year)}"
+        cy="${y(last.paid)}"
+        r="4" fill="#C49A45"
+        stroke="white" stroke-width="2"/>
+    </svg>
+  `;
+
+  chart.setAttribute(
+    "aria-label",
+    "Dopo "+last.year+" anni: capitale finale "+
+    euro(last.total)+", totale versato "+euro(last.paid)
+  );
+}
+
+/* CONSOB */
+function renderConsob(){
+  content.innerHTML=`
+    <h2>Glossario CONSOB</h2>
+
+    <section class="card">
+      <h3>🏛️ Fonte istituzionale</h3>
+      <p>
+        Puoi consultare il glossario ufficiale
+        della Commissione Nazionale per le Società
+        e la Borsa.
+      </p>
+      <p>
+        <a
+          href="https://www.consob.it/web/investor-education/glossario"
+          target="_blank"
+          rel="noopener noreferrer">
+          Apri il glossario ufficiale CONSOB ↗
+        </a>
+      </p>
+      <p class="small">
+        Per aprire il sito serve Internet.
+      </p>
+    </section>
+
+    <section class="card">
+      <h3>Informazione importante</h3>
+      <p>
+        Finanza Facile è un progetto educativo
+        indipendente, non affiliato, approvato
+        o sponsorizzato da CONSOB.
+      </p>
+    </section>
+  `;
+}
+
+/* NAVIGAZIONE */
+function renderNav(){
+  const tabs=[
+    ["Home","⌂"],
+    ["Glossario","▤"],
+    ["Preferiti","★"],
+    ["Strumenti","▦"],
+    ["CONSOB","🏛"]
+  ];
+
+  navigation.innerHTML=tabs.map(([name,icon])=>`
+    <button
+      data-page="${name}"
+      class="${page===name?"active":""}"
+      ${page===name?'aria-current="page"':""}>
+      <span class="nav-icon">${icon}</span>
+      ${name}
+    </button>
+  `).join("");
+
+  navigation.querySelectorAll("button").forEach(button=>{
+    button.onclick=()=>go(button.dataset.page);
+  });
+}
+
+/* SCHERMATE */
+function render(){
+  renderNav();
+
+  if(selected){
+    renderTerm();
+    return;
+  }
+
+  if(page==="Home"){
+    renderHome();
+  }else if(page==="Glossario"||page==="Preferiti"){
+    renderGlossary();
+  }else if(page==="Strumenti"){
+    renderCalculator();
+  }else if(page==="CONSOB"){
+    renderConsob();
+  }
+}
+
+/* APERTURA TERMINI */
+content.addEventListener("click",event=>{
+  const card=event.target.closest("[data-term]");
+  if(card){
+    openTerm(card.dataset.term);
+  }
+});
+
+content.addEventListener("keydown",event=>{
+  if(event.key!=="Enter"&&event.key!==" ")return;
+
+  const card=event.target.closest("[data-term]");
+  if(card){
+    event.preventDefault();
+    openTerm(card.dataset.term);
+  }
+});
+
+/* AVVIO */
+render();
+
+/* PWA: ATTIVA SU HTTPS O LOCALHOST */
+if("serviceWorker" in navigator){
+  window.addEventListener("load",()=>{
+    navigator.serviceWorker.register("./sw.js")
+      .catch(error=>console.warn("Service worker:",error));
+  });
+}
+</script>
+</body>
+</html>
